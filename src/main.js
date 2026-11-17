@@ -1,4 +1,6 @@
 import './style.css';
+const logoUrl = Object.values(import.meta.glob('../assets/icon.png', { eager: true, query: '?url', import: 'default' }))[0] || '';
+const logoUrl = Object.values(import.meta.glob('../assets/icon.png', { eager: true, query: '?url', import: 'default' }))[0] || '';
 import { recents, esc, recentFile, shareRecent, setPending, toast } from './util.js';
 
 const I = (p) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>`;
@@ -37,6 +39,9 @@ function home() {
   back.style.display = 'none';
   const rc = recents().slice(0, 6);
   view.innerHTML =
+    (logoUrl
+      ? '<div style="text-align:center;margin:4px 0 22px"><img src="' + logoUrl + '" alt="" style="width:96px;height:96px;border-radius:22px;object-fit:cover;box-shadow:0 6px 20px #0008"><div style="font-size:20px;font-weight:600;margin-top:10px">AllInOne Docs</div></div>'
+      : '') +
     '<div class="sec">Tools</div><div class="grid">' +
     Object.entries(tools).map(([k, v]) => `<a class="tile" href="#${k}"><span class="ico" style="background:${v[0]}">${I(v[1])}</span>${v[2]}</a>`).join('') +
     '</div>' +

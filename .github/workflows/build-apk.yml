@@ -18,10 +18,14 @@ jobs:
       - run: npm run build
       - run: npx cap add android
       - run: cp android-overrides/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
-      - name: App icon (only if assets/icon-only.png exists)
+      - name: App icon (only if public/icon.png exists)
         run: |
-          if [ -f assets/icon-only.png ]; then
+          if [ -f public/icon.png ]; then
+            mkdir -p assets
+            cp public/icon.png assets/icon-only.png
             npx capacitor-assets generate --android --iconBackgroundColor '#1b1b1b' --iconBackgroundColorDark '#1b1b1b'
+          else
+            echo "No public/icon.png found, using default icon"
           fi
       - run: npx cap sync android
       - run: chmod +x android/gradlew && cd android && ./gradlew assembleDebug
